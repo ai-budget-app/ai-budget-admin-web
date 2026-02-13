@@ -1,18 +1,86 @@
-# React + Vite
+# ai-budget-admin-web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Требования к инфраструктуре
 
-Currently, two official plugins are available:
+- Node.js: v18.x или выше
+- npm
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Требования к рабочему окружению
 
-## React Compiler
+- Любая современная IDE (VS Code рекомендуется)
+- Браузер (Chrome, Firefox, Safari и др.)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Запуск приложения
 
-Note: This will impact Vite dev & build performances.
+Для локального запуска приложения выполните:
 
-## Expanding the ESLint configuration
+```sh
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Приложение будет доступно по адресу: http://localhost:5173
+
+## Конфигурация
+
+Для работы приложения могут потребоваться переменные окружения. Создайте файл `.env` в корне проекта при необходимости.  
+Пример:
+
+```
+VITE_API_URL=http://localhost:5000/api
+```
+
+## Стек проекта
+
+- React 18
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- react-redux, @reduxjs/toolkit
+- react-router-dom
+- date-fns
+- jspdf, jspdf-autotable
+- react-bits
+- Biome (линтер/форматтер)
+
+## Структура проекта
+
+- `src/` — исходный код приложения
+- `public/` — статические файлы
+- `index.html` — точка входа
+
+## Работа с git и добавление нового кода
+
+1. **Создайте новую ветку для задачи**  
+	Формат имени ветки:  
+	```
+	feature/BA-01
+	```
+	где `BA-01` — номер вашей задачи.
+
+2. **Делайте коммиты в формате:**  
+	```
+	feature/BA-01: Добавил страницу логина
+	```
+
+3. **В этой ветке добавляйте необходимые фичи.**
+
+4. **После завершения работы создайте Merge Request (Pull Request) в main.**
+
+5. **После ревью и одобрения влейте ветку в main.**
+
+---
+
+## Прочее
+
+- Для форматирования и проверки кода используйте Biome:
+  ```sh
+  npm run lint
+  npm run lint:fix
+  npm run format
+  ```
+- Все переменные окружения и секреты храните только в `.env` (не коммитьте этот файл в репозиторий).
+
+---
+
+Если возникнут вопросы — пишите в Issues проекта.

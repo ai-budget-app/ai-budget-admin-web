@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'node:path'
+import path from 'node:path';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
-  const isDev = mode === 'development'
+  const isDev = mode === 'development';
 
   return {
     plugins: [react()],
@@ -15,19 +15,19 @@ export default defineConfig(({ mode }) => {
     esbuild: {
       loader: 'jsx',
       include: /src\/.*\.jsx?$/,
-      exclude: []
+      exclude: [],
     },
     optimizeDeps: {
       esbuildOptions: {
         loader: {
-          '.js': 'jsx'
-        }
-      }
+          '.js': 'jsx',
+        },
+      },
     },
     server: {
       port: 3000,
       host: true,
-      open: true
+      open: true,
     },
     build: {
       outDir: 'dist',
@@ -37,10 +37,10 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
             'redux-vendor': ['@reduxjs/toolkit', 'react-redux'],
-            'utils-vendor': ['date-fns', 'jspdf', 'jspdf-autotable']
-          }
-        }
-      }
-    }
-  }
-})
+            'utils-vendor': ['date-fns', 'jspdf', 'jspdf-autotable'],
+          },
+        },
+      },
+    },
+  };
+});

@@ -34,13 +34,14 @@ VITE_API_URL=http://localhost:5000/api
 
 - React 18
 - Vite
-- Tailwind CSS
-- shadcn/ui
+- styled-components
+- MUI (Material UI)
 - react-redux, @reduxjs/toolkit
 - react-router-dom
 - date-fns
 - jspdf, jspdf-autotable
-- react-bits
+- three, @react-three/fiber, ogl
+- framer-motion, motion
 - Biome (линтер/форматтер)
 
 ## Структура проекта

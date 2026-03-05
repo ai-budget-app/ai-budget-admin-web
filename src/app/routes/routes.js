@@ -3,12 +3,19 @@ import { PATHS } from './paths';
 
 // Lazy loading страниц
 const HomePage = lazy(() => import('@/pages/home/HomePage'));
+const LoginPage = lazy(() => import('@/pages/login/LoginPage'));
 // const NotFoundPage = lazy(() => import('@/pages/common/NotFoundPage'));
 
 export const routes = [
   {
     path: PATHS.HOME,
     element: HomePage,
+    roles: [], // Пустой массив = доступно всем
+    isPublic: true,
+  },
+  {
+    path: PATHS.LOGIN,
+    element: LoginPage,
     roles: [], // Пустой массив = доступно всем
     isPublic: true,
   },

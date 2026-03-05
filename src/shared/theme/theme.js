@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { color } from 'three/src/nodes/tsl/TSLCore';
 
 const buttonStyles = {
   borderRadius: '999px',
@@ -10,6 +11,7 @@ const buttonStyles = {
   '&:hover': {
     background: '#f0f0f0',
     boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
+    color: '#1976d2',
   },
 };
 

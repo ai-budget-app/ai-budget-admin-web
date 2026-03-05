@@ -1,5 +1,7 @@
 import { baseApi } from '@/app/store/baseApi'
 
+const isMockAuthEnabled = import.meta.env.VITE_AUTH_MOCK === 'true'
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
@@ -12,11 +14,25 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     login: builder.mutation({
-      query: (body) => ({
-        url: '/auth/login',
-        method: 'POST',
-        body,
-      }),
+      queryFn: async (body, _api, _extraOptions, baseQuery) => {
+        if (isMockAuthEnabled) {
+          return {
+            data: {
+              token: 'mock-auth-token',
+              user: {
+                email: body?.email,
+              },
+              message: 'Успешный вход (mock)',
+            },
+          }
+        }
+
+        return baseQuery({
+          url: '/auth/login',
+          method: 'POST',
+          body,
+        })
+      },
       invalidatesTags: ['User'],
     }),
 

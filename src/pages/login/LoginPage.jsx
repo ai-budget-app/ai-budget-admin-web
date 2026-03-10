@@ -1,83 +1,37 @@
 import { useMemo, useState } from 'react'
-import styled from 'styled-components'
 import { Alert, Button, CircularProgress, Typography } from '@mui/material'
-import { PageContainer } from '@/shared/ui/PageContainer'
+import { useNavigate } from 'react-router-dom'
+import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './LoginStyles'
 import { FormField } from '@/shared/ui/FormField'
 import { PasswordField } from '@/shared/ui/PasswordField'
 import { useLoginMutation } from '@/entities/auth/api/authApi'
 import logo from '@/assets/zenny.svg'
+import { PATHS } from '@/app/routes/paths'
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+.[^\s@]+$/
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PASSWORD_REGEX = /^.{6,}$/
 
-const Layout = styled(PageContainer)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-`
-
-const LoginCard = styled.div`
-  width: 100%;
-  max-width: 700px;
-  background: ${({ theme }) => theme.palette.background.paper};
-  border: 1px solid ${({ theme }) => theme.palette.divider};
-  border-radius: 24px;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
-
-  @media (max-width: 600px) {
-    padding: 24px 18px;
-    border-radius: 18px;
-    gap: 20px;
-  }
-`
-
-const Brand = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-`
-
-const BrandLogo = styled.img`
-  width: 38px;
-  height: 38px;
-`
-
-const BrandName = styled.span`
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.palette.text.primary};
-  letter-spacing: 0.01em;
-`
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 10px;
-`
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
-
 const LoginPage = () => {
+    const navigate = useNavigate()
     const [login, { isLoading }] = useLoginMutation()
-    const [form, setForm] = useState({ email: '', password: '' })
-    const [touched, setTouched] = useState({ email: false, password: false })
+
+    const [form, setForm] = useState({
+        email: '',
+        password: '',
+    })
+
+    const [touched, setTouched] = useState({
+        email: false,
+        password: false,
+    })
+
     const [requestError, setRequestError] = useState('')
 
     const errors = useMemo(() => {
         const emailError = EMAIL_REGEX.test(form.email)
             ? ''
             : 'Введите корректный email в формате name@example.com'
+
         const passwordError = PASSWORD_REGEX.test(form.password)
             ? ''
             : 'Пароль должен содержать минимум 6 символов'
@@ -91,26 +45,44 @@ const LoginPage = () => {
     const isValid = !errors.email && !errors.password
 
     const onChangeField = (name) => (event) => {
-        setForm((prev) => ({ ...prev, [name]: event.target.value }))
+        setForm((prev) => ({
+            ...prev,
+            [name]: event.target.value,
+        }))
         setRequestError('')
     }
 
     const onBlurField = (name) => () => {
-        setTouched((prev) => ({ ...prev, [name]: true }))
+        setTouched((prev) => ({
+            ...prev,
+            [name]: true,
+        }))
     }
 
-    const onSubmit = async (event) => {
-        event.preventDefault()
-        setTouched({ email: true, password: true })
+    const handleLogin = async () => {
+        setTouched({
+            email: true,
+            password: true,
+        })
 
-        if (!isValid) {
-            return
-        }
+        if (!isValid) return
 
         try {
-            await login(form).unwrap()
-        } catch {
-            setRequestError('Не удалось выполнить вход. API используется как заглушка.')
+            const response = await login(form).unwrap()
+
+            if (response?.token) {
+                localStorage.setItem('token', response.token)
+            }
+
+            setRequestError('')
+            console.log('LOGIN SUCCESS', response)
+
+            navigate(PATHS.HOME)
+        } catch (error) {
+            setRequestError(
+                error?.data?.message ||
+                'Не удалось выполнить вход. Проверьте email и пароль.'
+            )
         }
     }
 
@@ -126,12 +98,13 @@ const LoginPage = () => {
                     <Typography variant="h4" component="h1" fontWeight={700}>
                         Добро пожаловать!
                     </Typography>
+
                     <Typography variant="body1" color="text.secondary">
                         Введите данные для входа
                     </Typography>
                 </Header>
 
-                <Form onSubmit={onSubmit} noValidate>
+                <Form>
                     <FormField
                         label="Почта"
                         type="email"
@@ -153,10 +126,21 @@ const LoginPage = () => {
                         errorMessage={touched.password ? errors.password : ''}
                     />
 
-                    {requestError ? <Alert severity="error">{requestError}</Alert> : null}
+                    {requestError && <Alert severity="error">{requestError}</Alert>}
 
-                    <Button type="submit" variant="contained" fullWidth disabled={isLoading} sx={{ height: 46 }}>
-                        {isLoading ? <CircularProgress size={22} color="inherit" /> : 'Войти'}
+                    <Button
+                        type="button"
+                        variant="contained"
+                        fullWidth
+                        disabled={isLoading}
+                        sx={{ height: 46 }}
+                        onClick={handleLogin}
+                    >
+                        {isLoading ? (
+                            <CircularProgress size={22} color="inherit" />
+                        ) : (
+                            'Войти'
+                        )}
                     </Button>
                 </Form>
             </LoginCard>

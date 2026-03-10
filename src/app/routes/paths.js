@@ -1,6 +1,6 @@
 export const PATHS = {
   // Публичные
-  HOME: '/',
+  HOME: '/home',
   LOGIN: '/login',
 
   // Будущие страницы (закомментированы пока)

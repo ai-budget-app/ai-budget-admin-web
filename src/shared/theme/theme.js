@@ -9,9 +9,8 @@ const buttonStyles = {
   color: '#ffffff',
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
   '&:hover': {
-    background: '#f0f0f0',
+    background: '#1565c0',
     boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
-    color: '#1976d2',
   },
 };
 

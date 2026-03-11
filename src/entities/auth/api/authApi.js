@@ -1,5 +1,27 @@
 import { baseApi } from '@/app/store/baseApi'
 
+const saveAuthData = (data) => {
+  if (data?.token) {
+    localStorage.setItem('token', data.token)
+  }
+  if (data?.user) {
+    localStorage.setItem('user', JSON.stringify(data.user))
+  }
+}
+
+const withAuthSave = async ({ queryFulfilled }) => {
+  try {
+    const { data } = await queryFulfilled
+    saveAuthData(data)
+  } catch (error) {
+    // Запрос завершился ошибкой — данные не сохраняются.
+    // Блок необходим, чтобы не возникало unhandled promise rejection,
+    // так как onQueryStarted — async-функция.
+    // Сама ошибка обрабатывается в компоненте через .unwrap().
+    void error
+  }
+}
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
@@ -8,6 +30,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      onQueryStarted: (_arg, api) => withAuthSave(api),
       invalidatesTags: ['User'],
     }),
 
@@ -17,16 +40,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(_arg, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled
-          if (data?.token) {
-            localStorage.setItem('token', data.token)
-          }
-        } catch {
-          // ignore
-        }
-      },
+      onQueryStarted: (_arg, api) => withAuthSave(api),
       invalidatesTags: ['User'],
     }),
 

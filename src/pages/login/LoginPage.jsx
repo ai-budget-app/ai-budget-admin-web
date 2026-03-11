@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
-import { Alert, Button, CircularProgress, Typography } from '@mui/material'
+import { Alert, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './LoginStyles'
+import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './styles'
 import { FormField } from '@/shared/ui/FormField'
 import { PasswordField } from '@/shared/ui/PasswordField'
 import { useLoginMutation } from '@/entities/auth/api/authApi'
@@ -68,15 +68,8 @@ const LoginPage = () => {
         if (!isValid) return
 
         try {
-            const response = await login(form).unwrap()
-
-            if (response?.token) {
-                localStorage.setItem('token', response.token)
-            }
-
+            await login(form).unwrap()
             setRequestError('')
-            console.log('LOGIN SUCCESS', response)
-
             navigate(PATHS.HOME)
         } catch (error) {
             setRequestError(
@@ -136,11 +129,7 @@ const LoginPage = () => {
                         sx={{ height: 46 }}
                         onClick={handleLogin}
                     >
-                        {isLoading ? (
-                            <CircularProgress size={22} color="inherit" />
-                        ) : (
-                            'Войти'
-                        )}
+                        {isLoading ? 'Входим...' : 'Войти'}
                     </Button>
                 </Form>
             </LoginCard>

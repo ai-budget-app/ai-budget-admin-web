@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { color } from 'three/src/nodes/tsl/TSLCore';
 
 const buttonStyles = {
   borderRadius: '999px',

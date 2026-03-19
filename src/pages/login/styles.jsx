@@ -1,12 +1,12 @@
-import styled from 'styled-components'
-import { PageContainer } from '@/shared/ui/PageContainer'
+import styled from 'styled-components';
+import { PageContainer } from '@/shared/ui/PageContainer';
 
 export const Layout = styled(PageContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-`
+`;
 
 export const LoginCard = styled.div`
   width: 100%;
@@ -25,36 +25,36 @@ export const LoginCard = styled.div`
     border-radius: 18px;
     gap: 20px;
   }
-`
+`;
 
 export const Brand = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-`
+`;
 
 export const BrandLogo = styled.img`
   width: 38px;
   height: 38px;
-`
+`;
 
 export const BrandName = styled.span`
   font-size: 1.375rem;
   font-weight: 700;
   color: ${({ theme }) => theme.palette.text.primary};
   letter-spacing: 0.01em;
-`
+`;
 
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
   gap: 10px;
-`
+`;
 
 export const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;

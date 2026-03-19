@@ -1,4 +1,4 @@
-import { baseApi } from '@/app/store/baseApi'
+import { baseApi } from '@/app/store/baseApi';
 
 export const expensesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -70,7 +70,7 @@ export const expensesApi = baseApi.injectEndpoints({
       providesTags: ['Expenses'],
     }),
   }),
-})
+});
 
 export const {
   useCreateExpenseMutation,
@@ -81,4 +81,4 @@ export const {
   useBulkDeleteMutation,
   useStatsByCategoryQuery,
   useStatsSummaryQuery,
-} = expensesApi
+} = expensesApi;

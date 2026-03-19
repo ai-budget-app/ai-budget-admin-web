@@ -1,140 +1,139 @@
-import { useMemo, useState } from 'react'
-import { Alert, Button, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './styles'
-import { FormField } from '@/shared/ui/FormField'
-import { PasswordField } from '@/shared/ui/PasswordField'
-import { useLoginMutation } from '@/entities/auth/api/authApi'
-import logo from '@/assets/zenny.svg'
-import { PATHS } from '@/app/routes/paths'
+import { useMemo, useState } from 'react';
+import { Alert, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './styles';
+import { FormField } from '@/shared/ui/FormField';
+import { PasswordField } from '@/shared/ui/PasswordField';
+import { useLoginMutation } from '@/entities/auth/api/authApi';
+import logo from '@/assets/zenny.svg';
+import { PATHS } from '@/app/routes/paths';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const PASSWORD_REGEX = /^.{6,}$/
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_REGEX = /^.{6,}$/;
 
 const LoginPage = () => {
-    const navigate = useNavigate()
-    const [login, { isLoading }] = useLoginMutation()
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
-    const [form, setForm] = useState({
-        email: '',
-        password: '',
-    })
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
 
-    const [touched, setTouched] = useState({
-        email: false,
-        password: false,
-    })
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
 
-    const [requestError, setRequestError] = useState('')
+  const [requestError, setRequestError] = useState('');
 
-    const errors = useMemo(() => {
-        const emailError = EMAIL_REGEX.test(form.email)
-            ? ''
-            : 'Введите корректный email в формате name@example.com'
+  const errors = useMemo(() => {
+    const emailError = EMAIL_REGEX.test(form.email)
+      ? ''
+      : 'Введите корректный email в формате name@example.com';
 
-        const passwordError = PASSWORD_REGEX.test(form.password)
-            ? ''
-            : 'Пароль должен содержать минимум 6 символов'
+    const passwordError = PASSWORD_REGEX.test(form.password)
+      ? ''
+      : 'Пароль должен содержать минимум 6 символов';
 
-        return {
-            email: emailError,
-            password: passwordError,
-        }
-    }, [form.email, form.password])
+    return {
+      email: emailError,
+      password: passwordError,
+    };
+  }, [form.email, form.password]);
 
-    const isValid = !errors.email && !errors.password
+  const isValid = !errors.email && !errors.password;
 
-    const onChangeField = (name) => (event) => {
-        setForm((prev) => ({
-            ...prev,
-            [name]: event.target.value,
-        }))
-        setRequestError('')
+  const onChangeField = (name) => (event) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: event.target.value,
+    }));
+    setRequestError('');
+  };
+
+  const onBlurField = (name) => () => {
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+  };
+
+  const handleLogin = async () => {
+    setTouched({
+      email: true,
+      password: true,
+    });
+
+    if (!isValid) return;
+
+    try {
+      await login(form).unwrap();
+      setRequestError('');
+      navigate(PATHS.HOME);
+    } catch (error) {
+      setRequestError(
+        error?.data?.message || 'Не удалось выполнить вход. Проверьте email и пароль.'
+      );
     }
+  };
 
-    const onBlurField = (name) => () => {
-        setTouched((prev) => ({
-            ...prev,
-            [name]: true,
-        }))
-    }
+  return (
+    <Layout>
+      <LoginCard>
+        <Brand>
+          <BrandLogo src={logo} alt="Zenny logo" />
+          <BrandName>Zenny</BrandName>
+        </Brand>
 
-    const handleLogin = async () => {
-        setTouched({
-            email: true,
-            password: true,
-        })
+        <Header>
+          <Typography variant="h4" component="h1" fontWeight={700}>
+            Добро пожаловать!
+          </Typography>
 
-        if (!isValid) return
+          <Typography variant="body1" color="text.secondary">
+            Введите данные для входа
+          </Typography>
+        </Header>
 
-        try {
-            await login(form).unwrap()
-            setRequestError('')
-            navigate(PATHS.HOME)
-        } catch (error) {
-            setRequestError(
-                error?.data?.message ||
-                'Не удалось выполнить вход. Проверьте email и пароль.'
-            )
-        }
-    }
+        <Form>
+          <FormField
+            label="Почта"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={onChangeField('email')}
+            onBlur={onBlurField('email')}
+            autoComplete="email"
+            errorMessage={touched.email ? errors.email : ''}
+          />
 
-    return (
-        <Layout>
-            <LoginCard>
-                <Brand>
-                    <BrandLogo src={logo} alt="Zenny logo" />
-                    <BrandName>Zenny</BrandName>
-                </Brand>
+          <PasswordField
+            label="Пароль"
+            name="password"
+            value={form.password}
+            onChange={onChangeField('password')}
+            onBlur={onBlurField('password')}
+            autoComplete="current-password"
+            errorMessage={touched.password ? errors.password : ''}
+          />
 
-                <Header>
-                    <Typography variant="h4" component="h1" fontWeight={700}>
-                        Добро пожаловать!
-                    </Typography>
+          {requestError && <Alert severity="error">{requestError}</Alert>}
 
-                    <Typography variant="body1" color="text.secondary">
-                        Введите данные для входа
-                    </Typography>
-                </Header>
+          <Button
+            type="button"
+            variant="contained"
+            fullWidth
+            disabled={isLoading}
+            sx={{ height: 46 }}
+            onClick={handleLogin}
+          >
+            {isLoading ? 'Входим...' : 'Войти'}
+          </Button>
+        </Form>
+      </LoginCard>
+    </Layout>
+  );
+};
 
-                <Form>
-                    <FormField
-                        label="Почта"
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={onChangeField('email')}
-                        onBlur={onBlurField('email')}
-                        autoComplete="email"
-                        errorMessage={touched.email ? errors.email : ''}
-                    />
-
-                    <PasswordField
-                        label="Пароль"
-                        name="password"
-                        value={form.password}
-                        onChange={onChangeField('password')}
-                        onBlur={onBlurField('password')}
-                        autoComplete="current-password"
-                        errorMessage={touched.password ? errors.password : ''}
-                    />
-
-                    {requestError && <Alert severity="error">{requestError}</Alert>}
-
-                    <Button
-                        type="button"
-                        variant="contained"
-                        fullWidth
-                        disabled={isLoading}
-                        sx={{ height: 46 }}
-                        onClick={handleLogin}
-                    >
-                        {isLoading ? 'Входим...' : 'Войти'}
-                    </Button>
-                </Form>
-            </LoginCard>
-        </Layout>
-    )
-}
-
-export default LoginPage
+export default LoginPage;

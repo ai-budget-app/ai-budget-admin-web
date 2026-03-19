@@ -1,26 +1,26 @@
-import { baseApi } from '@/app/store/baseApi'
+import { baseApi } from '@/app/store/baseApi';
 
 const saveAuthData = (data) => {
   if (data?.token) {
-    localStorage.setItem('token', data.token)
+    localStorage.setItem('token', data.token);
   }
   if (data?.user) {
-    localStorage.setItem('user', JSON.stringify(data.user))
+    localStorage.setItem('user', JSON.stringify(data.user));
   }
-}
+};
 
 const withAuthSave = async ({ queryFulfilled }) => {
   try {
-    const { data } = await queryFulfilled
-    saveAuthData(data)
+    const { data } = await queryFulfilled;
+    saveAuthData(data);
   } catch (error) {
     // Запрос завершился ошибкой — данные не сохраняются.
     // Блок необходим, чтобы не возникало unhandled promise rejection,
     // так как onQueryStarted — async-функция.
     // Сама ошибка обрабатывается в компоненте через .unwrap().
-    void error
+    void error;
   }
-}
+};
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -79,7 +79,7 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ['User', 'Budget', 'Expenses'],
     }),
   }),
-})
+});
 
 export const {
   useRegisterMutation,
@@ -88,4 +88,4 @@ export const {
   useUpdateProfileMutation,
   useChangePasswordMutation,
   useDeleteAccountMutation,
-} = authApi
+} = authApi;

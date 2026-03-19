@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { PATHS } from './paths';
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
 // Lazy loading страниц
 const HomePage = lazy(() => import('@/pages/home/HomePage'));
@@ -8,7 +8,7 @@ const LoginPage = lazy(() => import('@/pages/login/LoginPage'));
 // const NotFoundPage = lazy(() => import('@/pages/common/NotFoundPage'));
 
 export const routes = [
-   {
+  {
     path: '/',
     element: () => <Navigate to={PATHS.LOGIN} replace />,
     roles: [],

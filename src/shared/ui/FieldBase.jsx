@@ -1,5 +1,5 @@
-import { TextField } from '@mui/material'
-import styled from 'styled-components'
+import { TextField } from '@mui/material';
+import styled from 'styled-components';
 
 export const FieldBase = styled(TextField)`
   && {
@@ -7,8 +7,8 @@ export const FieldBase = styled(TextField)`
       border-radius: 12px;
       background: ${({ theme }) =>
         theme.palette.mode === 'dark'
-            ? theme.palette.background.paper
-            : theme.palette.background.default};
+          ? theme.palette.background.paper
+          : theme.palette.background.default};
       width: 100%;
     }
 

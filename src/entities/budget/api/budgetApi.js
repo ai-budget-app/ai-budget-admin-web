@@ -1,4 +1,4 @@
-import { baseApi } from '@/app/store/baseApi'
+import { baseApi } from '@/app/store/baseApi';
 
 export const budgetApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -52,7 +52,7 @@ export const budgetApi = baseApi.injectEndpoints({
       invalidatesTags: ['Budget', 'Expenses'],
     }),
   }),
-})
+});
 
 export const {
   useSetSettingsMutation,
@@ -61,4 +61,4 @@ export const {
   useGetSummaryQuery,
   useGetHistoryQuery,
   useUpdateCategoriesMutation,
-} = budgetApi
+} = budgetApi;

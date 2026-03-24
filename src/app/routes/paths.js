@@ -10,4 +10,4 @@ export const PATHS = {
 
   // Ошибки
   NOT_FOUND: '*',
-}
+};

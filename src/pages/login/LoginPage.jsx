@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Alert, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './LoginStyles';
+import { Layout, LoginCard, Brand, BrandLogo, BrandName, Header, Form } from './styles';
 import { FormField } from '@/shared/ui/FormField';
 import { PasswordField } from '@/shared/ui/PasswordField';
 import { useLoginMutation } from '@/entities/auth/api/authApi';

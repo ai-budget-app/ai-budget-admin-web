@@ -1,15 +1,16 @@
-import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
-import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
-import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-
+import {
+  SettingsOutlined as SettingsOutlinedIcon,
+  AssessmentOutlined as AssessmentOutlinedIcon,
+  HistoryOutlined as HistoryOutlinedIcon,
+  WarningAmberOutlined as WarningAmberOutlinedIcon,
+  AutoGraphOutlined as AutoGraphOutlinedIcon,
+  TipsAndUpdatesOutlined as TipsAndUpdatesOutlinedIcon,
+  CategoryOutlined as CategoryOutlinedIcon,
+  AccountBalanceWalletOutlined as AccountBalanceWalletOutlinedIcon,
+  AnalyticsOutlined as AnalyticsOutlinedIcon
+} from '@mui/icons-material';
 import { PageContainer } from '@/shared/ui/PageContainer';
-import DashboardInfoCard from '@/pages/home/ui/DashboardInfoCard';
+import DashboardInfoCard from '@/pages/home/ui/DashboardInfoCard/DashboardInfoCard';
 import { useMeQuery } from '@/entities/auth/api/authApi';
 import {
   HomePageContent,
@@ -18,7 +19,7 @@ import {
   WelcomeSubtitle,
   AppNameLink,
   CardsGrid,
-} from './HomeStyles';
+} from './styles';
 
 const CARDS = [
   {

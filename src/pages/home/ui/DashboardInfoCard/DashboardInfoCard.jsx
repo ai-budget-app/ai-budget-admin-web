@@ -5,7 +5,7 @@ import {
   IconWrapper,
   Description,
   StyledLink,
-} from './DashBoardCardStyles';
+} from './styles';
 
 const DashboardInfoCard = ({ icon: Icon, title, description, linkText, linkTo }) => {
   return (

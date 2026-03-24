@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Card, CardContent } from '@/shared/ui/Card';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
-const HoverCard = styled(Card)`
+export const HoverCard = styled(Card)`
   && {
     height: 100%;
     cursor: default;
@@ -19,7 +20,7 @@ const HoverCard = styled(Card)`
   }
 `;
 
-const StyledCardContent = styled(CardContent)`
+export const StyledCardContent = styled(CardContent)`
   && {
     padding: 32px !important;
     display: flex;
@@ -28,20 +29,23 @@ const StyledCardContent = styled(CardContent)`
   }
 `;
 
-const IconWrapper = styled.div`
+export const IconWrapper = styled.div`
   font-size: 2.75rem;
   margin-bottom: 16px;
   line-height: 1;
+  color: ${({ theme }) => theme.palette.primary.main};
+  display: flex;
+  align-items: center;
 `;
 
-const Description = styled(Typography)`
+export const Description = styled(Typography)`
   && {
     flex: 1;
     margin-bottom: 20px;
   }
 `;
 
-const StyledLink = styled.a`
+export const StyledLink = styled(Link)`
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 600;
@@ -53,22 +57,3 @@ const StyledLink = styled.a`
     text-decoration: underline;
   }
 `;
-
-const DashboardInfoCard = ({ icon, title, description, linkText, linkTo }) => {
-  return (
-    <HoverCard>
-      <StyledCardContent>
-        <IconWrapper>{icon}</IconWrapper>
-        <Typography variant="h5" gutterBottom fontWeight={600}>
-          {title}
-        </Typography>
-        <Description variant="body1" color="text.secondary">
-          {description}
-        </Description>
-        {linkText && linkTo && <StyledLink href={linkTo}>{linkText} →</StyledLink>}
-      </StyledCardContent>
-    </HoverCard>
-  );
-};
-
-export default DashboardInfoCard;
